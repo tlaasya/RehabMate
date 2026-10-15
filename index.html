@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5faf9">
+    <meta name="description" content="RehabMate helps stroke survivors track physiotherapist-prescribed home exercises.">
+    <title>RehabMate | Home Physiotherapy Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script type="module" src="app.js"></script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="#home">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>RehabMate</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#exercises">Exercises</a>
+        <a href="#progress">Progress</a>
+        <a href="#about">About</a>
+    </nav>
+
+    <a class="button button-small header-cta" href="#dashboard">Get Started →</a>
+</header>
+
+<main>
+    <section class="hero" id="home">
+        <div class="hero-copy">
+            <p class="eyebrow">Smart home physiotherapy assistant</p>
+            <h1>Your Recovery Journey, Supported at Home.</h1>
+            <p class="hero-description">
+                A calm, simple space to practice physiotherapist-prescribed
+                exercises at home and track every session.
+            </p>
+            <div class="hero-actions">
+                <a class="button" href="#exercises">Start Practicing →</a>
+                <a class="text-link" href="#about">Learn more</a>
+            </div>
+            <p class="hero-footnote">✓ Practice at your pace, following your care plan.</p>
+        </div>
+
+        <div class="hero-visual" role="img"
+             aria-label="Illustration representing home exercise practice">
+            <div class="visual-ring"></div>
+            <div class="visual-sun"></div>
+            <div class="person">
+                <span class="person-head"></span>
+                <span class="person-body"></span>
+                <span class="person-arm"></span>
+            </div>
+            <div class="visual-note">
+                <span class="note-check">✓</span>
+                <span>
+                    <strong>Small steps matter</strong>
+                    <small>Every practice session counts.</small>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="dashboard">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Patient dashboard</p>
+                <h2>Welcome to your practice</h2>
+                <p class="section-description">Your activity at a glance.</p>
+            </div>
+            <span class="practice-badge">● Your home practice</span>
+        </div>
+
+        <div class="summary-grid">
+            <article class="summary-card">
+                <span class="summary-icon icon-blue">✓</span>
+                <div>
+                    <p>Total Sessions</p>
+                    <strong id="totalSessions">0</strong>
+                </div>
+            </article>
+            <article class="summary-card">
+                <span class="summary-icon icon-green">↻</span>
+                <div>
+                    <p>Total Repetitions</p>
+                    <strong id="totalReps">0</strong>
+                </div>
+            </article>
+            <article class="summary-card">
+                <span class="summary-icon icon-peach">◷</span>
+                <div>
+                    <p>Recent Activity</p>
+                    <strong id="latestSession">No sessions yet</strong>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="exercises">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Your exercise space</p>
+                <h2>My Exercises</h2>
+                <p class="section-description">
+                    Choose an exercise from your physiotherapist-approved plan.
+                </p>
+            </div>
+        </div>
+
+        <div class="exercise-grid">
+            <article class="exercise-card">
+                <div class="exercise-card-top">
+                    <span class="exercise-icon">💪</span>
+                    <span class="exercise-category">Upper body</span>
+                </div>
+                <h3>Seated Arm Movement</h3>
+                <p>Practice the arm movement included in your care plan while seated and supported.</p>
+                <details>
+                    <summary>Exercise instructions</summary>
+                    <p>Follow the positioning, movement range and repetition guidance provided by your physiotherapist.</p>
+                </details>
+                <div class="demo-placeholder">
+                    <span>▶</span>
+                    <span>Demonstration video loads in the session player below.</span>
+                </div>
+                <button class="button exercise-start" type="button"
+                        data-exercise="Seated Arm Movement">
+                    Select Exercise →
+                </button>
+            </article>
+
+            <article class="exercise-card">
+                <div class="exercise-card-top">
+                    <span class="exercise-icon">✋</span>
+                    <span class="exercise-category">Hand practice</span>
+                </div>
+                <h3>Hand Movement</h3>
+                <p>Practice the hand movement assigned in your plan, at your prescribed pace.</p>
+                <details>
+                    <summary>Exercise instructions</summary>
+                    <p>Use only the hand movement and repetition guidance reviewed with your physiotherapist.</p>
+                </details>
+                <div class="demo-placeholder demo-blue">
+                    <span>▶</span>
+                    <span>Demonstration video loads in the session player below.</span>
+                </div>
+                <button class="button exercise-start" type="button"
+                        data-exercise="Hand Movement">
+                    Select Exercise →
+                </button>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="exerciseSession">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Session controls</p>
+                <h2>Your Current Session</h2>
+                <p class="section-description">Track your practice session below.</p>
+            </div>
+            <span class="session-status" id="sessionStatus" role="status"
+                  aria-live="polite">Ready</span>
+        </div>
+
+        <div class="session-panel">
+            <div class="session-media-grid">
+            <div class="exercise-video-panel">
+                <h3>Exercise demonstration</h3>
+                <video id="exerciseDemo" controls playsinline preload="metadata">
+                    Your browser does not support video playback.
+                </video>
+                <p id="exerciseVideoNote" class="session-message">Select an exercise to load its demonstration video.</p>
+            <div class="session-controls">
+                <button class="button" id="startBtn" type="button">Start</button>
+                <button class="button button-outline" id="pauseBtn" type="button">Pause</button>
+                <button class="button button-outline" id="resumeBtn" type="button">Resume</button>
+                <button class="button button-finish" id="finishBtn" type="button">Finish Exercise</button>
+            </div>
+            </div>
+        <aside class="camera-slot camera-panel">
+            <span class="camera-slot-icon">◎</span>
+            <div class="camera-panel-content">
+                <h3>Camera Movement Tracking</h3>
+                <div class="camera-preview">
+                    <video id="exercise-video" autoplay muted playsinline></video>
+                    <canvas id="pose-overlay" aria-label="Detected body or hand landmark overlay"></canvas>
+                </div>
+                <p id="poseStatus">Camera is off. Confirm the safety notice before enabling camera tracking.</p>
+                <div class="form-feedback" id="formFeedback" data-level="info" role="status" aria-live="polite">
+                    Form cues are off until you start a tracked session. This is an experimental demo, not a medical assessment.
+                </div>
+                <label class="audio-alert-setting"><input type="checkbox" id="audioAlerts" checked> Play a short sound when a demo form cue appears</label>
+                <label class="safety-confirm"><input type="checkbox" id="safetyConfirm"> I understand this is a demo estimate, not a medical assessment, and will follow my physiotherapist's guidance.</label>
+                <div class="camera-actions">
+                    <button class="button" id="startCameraBtn" type="button">Start camera</button>
+                    <button class="button button-outline" id="stopCameraBtn" type="button" disabled>Stop camera</button>
+                </div>
+                <p id="camera-error" class="camera-error" role="alert" hidden></p>
+                <p class="camera-disclaimer">Camera frames are processed in your browser and are not saved by this app. Repetition counting is experimental.</p>
+            </div>
+        </aside>
+            </div>
+            <div class="session-current">
+                <span class="control-label">Current exercise</span>
+                <h3 id="currentExercise">None selected</h3>
+            </div>
+
+            <div class="session-metrics">
+                <div class="metric-block">
+                    <span class="control-label">Session duration</span>
+                    <strong class="session-timer" id="timer">00:00</strong>
+                </div>
+                <div class="metric-block">
+                    <label class="control-label" for="reps">Repetitions completed</label>
+                    <input id="reps" type="number" min="0" step="1"
+                           value="0" inputmode="numeric">
+                </div>
+            </div>
+
+
+            <p class="session-message" id="message" role="status" aria-live="polite">
+                Choose an exercise above to begin.
+            </p>
+        </div>
+
+
+    </section>
+
+    <section class="section" id="progress">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Progress and history</p>
+                <h2>Recent Practice</h2>
+                <p class="section-description">Review your completed sessions.</p>
+            </div>
+        </div>
+
+        <div class="history-actions"><button class="button button-outline" id="clear-history" type="button">Clear history</button></div>
+        <div class="history-list" id="history" aria-live="polite">
+            <div class="history-header">
+                <span>Exercise and date</span>
+                <span>Duration</span>
+                <span>Repetitions</span>
+            </div>
+            <p class="empty-state">No sessions recorded yet.</p>
+        </div>
+    </section>
+
+    <section class="section about-section" id="about">
+        <div>
+            <p class="eyebrow">About RehabMate</p>
+            <h2>Support for your home practice.</h2>
+        </div>
+        <aside class="safety-note">
+            <span class="safety-icon">!</span>
+            <div>
+                <h3>Important safety information</h3>
+                <p>
+                    RehabMate does not provide medical diagnoses or replace
+                    professional care. Perform only exercises approved by your
+                    physiotherapist. Stop if you feel pain or unwell and contact
+                    your care team. The timer and repetition counter do not
+                    verify that an exercise was performed correctly.
+                </p>
+            </div>
+        </aside>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <a class="brand" href="#home">
+        <span class="brand-mark">R</span>
+        <span>RehabMate</span>
+    </a>
+    <p>Smart Home Physiotherapy Assistant</p>
+    <a href="#about">Safety and about</a>
+</footer>
+</body>
+</html>

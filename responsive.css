@@ -1,0 +1,160 @@
+
+@media (max-width: 1000px) {
+    .site-header {
+        padding: 14px 4%;
+        gap: 15px;
+    }
+
+    .main-nav {
+        gap: 14px;
+    }
+
+    .hero {
+        gap: 30px;
+        padding: 60px 5%;
+    }
+
+    .section {
+        padding: 45px 5%;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .site-footer {
+        padding-right: 5%;
+        padding-left: 5%;
+    }
+}
+
+@media (max-width: 700px) {
+    .site-header {
+        position: static;
+        flex-wrap: wrap;
+    }
+
+    .main-nav {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px 18px;
+    }
+
+    .header-cta {
+        margin-left: auto;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 45px 6%;
+    }
+
+    .hero-visual {
+        min-height: 300px;
+    }
+
+    .section {
+        padding: 40px 6%;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .summary-grid,
+    .exercise-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .session-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .session-controls {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .session-controls .button {
+        width: 100%;
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .history-list {
+        padding: 12px;
+        overflow-x: auto;
+    }
+
+    .history-header,
+    .history-item {
+        min-width: 360px;
+    }
+
+    .site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    .brand {
+        font-size: 18px;
+    }
+
+    .brand-mark {
+        width: 32px;
+        height: 32px;
+    }
+
+    .header-cta {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .main-nav {
+        gap: 8px 13px;
+    }
+
+    .main-nav a {
+        font-size: 12px;
+    }
+
+    .hero-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .summary-card,
+    .exercise-card,
+    .session-panel {
+        padding: 18px;
+    }
+
+    .camera-slot {
+        align-items: flex-start;
+        padding: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+  .camera-actions .button { flex: 1 1 140px; }
+  .camera-preview { min-height: 140px; }
+  .exercise-video-panel video { max-height: 260px; }
+}
+
+
+@media (max-width: 800px) {
+  .session-media-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .session-media-grid .exercise-video-panel video,
+  .session-media-grid .camera-preview video { height: auto; max-height: 320px; }
+}
