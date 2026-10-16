@@ -595,7 +595,7 @@ h3 {
 .history-header,
 .history-item {
     display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(65px, 1fr) minmax(85px, 1fr);
+    grid-template-columns: minmax(0, 2fr) minmax(65px, 1fr) minmax(85px, 1fr) minmax(50px, 0.7fr) minmax(60px, 0.8fr);
     align-items: center;
     gap: 15px;
 }
@@ -757,3 +757,39 @@ h3 {
 .session-media-grid .session-controls .button {
     flex: 1 1 120px;
 }
+
+.category-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-bottom: 26px; }
+.category-card { display: flex; align-items: center; gap: 14px; min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: white; color: var(--text); text-align: left; cursor: pointer; }
+.category-card[aria-pressed="true"], .category-card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.category-icon { display: grid; place-items: center; flex: 0 0 46px; height: 46px; border-radius: 12px; background: #e3f3ed; font-size: 24px; }
+.category-card-copy { display: grid; min-width: 0; }
+.category-card-copy small { color: var(--muted); }
+.exercise-list-heading { margin: 0 0 18px; font-size: 22px; }
+.exercise-tracking-note { color: var(--muted); font-size: 12px !important; }
+.legacy-exercises { margin-top: 24px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: white; }
+.legacy-exercises summary, .therapist-settings summary { color: var(--primary-dark); font-weight: 700; cursor: pointer; }
+.legacy-exercise-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.reference-controls, .therapist-settings { margin: 14px 0; padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: white; }
+.reference-controls input[type="file"] { display: block; width: 100%; margin: 8px 0; }
+.reference-approval { display: flex; align-items: flex-start; gap: 8px; margin: 10px 0; color: var(--muted); font-size: 12px; }
+.reference-approval input { flex: 0 0 auto; margin-top: 4px; }
+.reference-controls > p, .therapist-settings > p { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.movement-status { margin: 12px 0; padding: 14px; border: 1px solid var(--border); border-left: 4px solid #758884; border-radius: 9px; background: white; }
+.movement-status[data-state="correct"] { border-left-color: #218458; background: #f0faf4; }
+.movement-status[data-state="incorrect"] { border-left-color: #bd7021; background: #fff8ed; }
+.movement-status strong { display: block; font-size: 15px; }
+.movement-status p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.feedback-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 12px 0; }
+.feedback-controls .button { padding: 8px 12px; font-size: 13px; }
+.feedback-controls .audio-alert-setting { margin: 0; }
+.feedback-status { margin: 4px 0 12px; color: var(--muted); font-size: 12px; }
+.therapist-settings-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.therapist-settings-grid label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.therapist-settings-grid input { width: 100%; min-width: 0; min-height: 42px; padding: 8px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); }
+.range-units { color: var(--muted); font-size: 12px; }
+#repProgress { display: block; width: 100%; height: 8px; margin-top: 8px; accent-color: var(--primary); }
+#repProgressText { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+.tracking-mode { margin: 0 0 14px; padding: 11px 13px; border-left: 3px solid var(--primary); background: #edf7f4; font-size: 13px; }
+.session-summary { padding: 15px; border: 1px solid var(--border); border-radius: 9px; background: white; }
+.session-summary strong { font-size: 14px; }
+.session-summary p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }

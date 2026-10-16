@@ -1,38 +1,57 @@
-# RehabMate — Home Physiotherapy Assistant
+# RehabMate
 
-This package contains the updated RehabMate browser prototype and the two demonstration videos you uploaded.
+RehabMate is a browser-based home exercise support prototype. It reuses the existing camera stream and MediaPipe Tasks Vision body/hand models, and includes 15 exercise demonstrations plus the original seated-arm and hand sessions.
 
-## Included exercise videos
+## Run
 
-- `videos/hand-movement.mp4` — the hand/wrist movement demonstration (`WhatsApp Video 2026-10-15 at 9.58.48 PM.mp4`)
-- `videos/seated-arm-movement.mp4` — the seated arm movement demonstration (`WhatsApp Video 2026-10-15 at 10.10.10 PM.mp4`)
+No npm or package installation is required. MediaPipe JavaScript/WASM and model files load from their configured CDNs, so the first model load needs internet access.
 
-The video names and paths are already configured in `app.js`. Keep the `videos` folder next to `index.html`; do not rename the files unless you also update `EXERCISE_VIDEOS` in `app.js`.
+From the project folder in VS Code, either run `index.html` with Live Server or use:
 
-## Run the app
+```powershell
+python -m http.server 8000
+```
 
-1. Extract the ZIP completely.
-2. Open the extracted `RehabMate_Corrected` folder in VS Code.
-3. Run `index.html` with VS Code Live Server or another local web server. Do not open the file using a `file://` URL.
-4. Keep an internet connection available so the MediaPipe browser modules and models can load.
-5. Select **Hand Movement** or **Seated Arm Movement**.
-6. For camera tracking, tick the safety confirmation, click **Start camera**, and allow browser camera permission.
-7. Click **Start**. The selected demonstration video starts playing and loops alongside the live camera view. Pause and Resume control the session and demonstration together.
-8. During **Hand Movement**, detected palm/finger landmarks are shown in yellow. During **Seated Arm Movement**, body landmarks are shown in teal.
-9. Enter repetitions manually for Hand Movement. Seated Arm Movement uses a simple experimental estimate.
-10. Click **Finish Exercise** to save the session summary to this browser.
+Open `http://localhost:8000`. Do not use a `file://` URL; browser camera access requires localhost or HTTPS.
 
-## Layout and behavior
+Run the automated movement/configuration tests with:
 
-- Desktop: demonstration video on the left, live camera on the right.
-- The Start, Pause, Resume, and Finish Exercise controls are immediately below the demonstration video.
-- Smaller screens stack the panels vertically.
-- The demonstration video reports a helpful message if a file is missing or cannot be decoded.
+```powershell
+node --test .\tests\monitor.test.mjs
+```
 
-## Important limitations
+## Exercise videos
 
-- This is a browser-based prototype. Session history uses localStorage in the current browser; it is not a remote database.
-- Camera frames are processed locally and are not recorded by this app.
-- Hand landmarks indicate joint locations; they do not determine whether a movement is medically correct.
-- The seated-arm repetition counter and audio form cues are experimental heuristics, not clinically validated assessment. Lighting, camera position, occlusion, and model error may produce inaccurate estimates or warnings.
-- Follow the exercise plan prescribed by a qualified physiotherapist. Stop if you feel pain or unwell.
+The exercise cards and shared reference player use exact paths in `EXERCISE_VIDEOS` in `app.js`. The uploaded names contain some typos and double `.mp4` suffixes; keep them as-is or update the matching map entry if you rename a file. Every category selection loads its corresponding clip into the player. The original **Hand Movement** choice uses the uploaded Hand Opening and Closing demonstration.
+
+## Monitoring workflow
+
+1. Select a category and exercise. The session panel shows its instructions and matching reference video.
+2. Open **Therapist tracking settings** and enter the start value, target value, tolerance, target repetitions, and target sets provided by the treating therapist. No movement range is prescribed by the app. Settings are isolated per exercise and can be reset individually.
+3. Camera monitoring is optional. Confirm the safety notice, select **Start camera**, and allow permission. Camera frames stay in the browser.
+4. Start, pause/resume, and stop the session from the shared controls. A complete supported start-to-target-to-start cycle is required to add an automatic repetition.
+5. To compare a reference, confirm therapist approval and select **Analyze reference phases**. The app samples the selected exercise video, extracts one full movement cycle using the configured range, then uses normalized phase distance rather than clip timestamps.
+6. Mute warning tones or enable Voice feedback. Speech requires browser Web Speech support and is unlocked by a user action.
+
+## Supported estimates and limits
+
+- Body-pose estimates are available for shoulder flexion/abduction, elbow flexion, shoulder shrugs, shoulder-blade approximation, seated knee extension/marching, ankle dorsiflexion, straight-leg raise, and seated hip abduction.
+- Hand estimates are available for hand opening/closing, finger flexion/extension, finger-to-thumb proximity, and wrist flexion/extension when both hand and forearm landmarks are visible.
+- Forearm rotation uses MediaPipe hand-world landmarks and remains unavailable when those 3D points are absent or unreliable. Other unsupported views also report **Tracking unavailable**.
+- These are experimental geometry heuristics, not clinically validated form assessment. Camera position, occlusion, lighting, patient-specific movement, and reference-video framing affect results. A visible “Correct movement” status does not guarantee correct or safe performance.
+- The Shoulder Flexion clip yielded a complete cycle with diagnostic-only bounds matching its observed feature range (11–25°, tolerance 2°); these are not clinical recommendations. The initial validation bounds were mismatched. The Seated Hip Abduction clip measured 7.5–14.0% knee displacement but did not reach its configured target after the start, and the knees are not reliably visible. Replace it with a therapist-approved front-view clip showing both hips and knees through a full outward-and-return cycle. Neither exercise is compared until the therapist's range is entered and reference analysis succeeds.
+- Therapist ranges and targets are stored only in localStorage in this browser. Session history is also local and is not a remote database.
+- Stop if you feel pain or unwell and follow your care team's instructions. RehabMate does not diagnose conditions or prescribe exercises.
+
+## Test checklist
+
+- Click each category; confirm the correct five exercises and video load for each card.
+- Deny camera permission or use a device without a camera; confirm the error text and manual timer/repetition workflow remain available.
+- Allow permission, start a supported exercise, and check the live video/landmark overlay. Test with a clear view matching the exercise's indicated front/side setup.
+- Enter therapist-approved ranges; verify the monitor stays unavailable until configuration and landmarks are valid.
+- With a test clip containing a complete cycle, approve and analyze its reference; verify the status reports whether a complete reference phase was found.
+- Hold a supported metric below its configured target for at least the persistence interval; check the visual correction, warning cooldown, mute button, and optional voice feedback.
+- Verify incomplete movement and missing landmarks do not add reps; complete a full cycle to check one rep is added. Stop and confirm the summary includes reps, sets, targets, warning count, and reference-comparison state.
+- Stop the camera and verify its permission indicator turns off; select another exercise and ensure the correct video appears.
+
+Camera hardware, patient-specific camera angles/ranges, real clinical reference clips, audible output, and speech behavior should be tested manually in the intended browser/device. The browser-based synthetic monitor tests do not validate clinical accuracy.

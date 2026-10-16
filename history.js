@@ -22,7 +22,7 @@ export function renderHistory() {
   list.replaceChildren();
   const header = document.createElement("div");
   header.className = "history-header";
-  ["Exercise and date", "Duration", "Repetitions"].forEach(label => {
+  ["Exercise and date", "Duration", "Repetitions", "Sets", "Warnings"].forEach(label => {
     const span = document.createElement("span"); span.textContent = label; header.append(span);
   });
   list.append(header);
@@ -39,7 +39,9 @@ export function renderHistory() {
     exercise.append(title, dateEl);
     const duration = document.createElement("span"); duration.textContent = formatDuration(session.durationSeconds ?? session.duration);
     const reps = document.createElement("span"); reps.textContent = String(Number(session.reps ?? session.repetitions) || 0);
-    row.append(exercise, duration, reps); list.append(row);
+    const sets = document.createElement("span"); sets.textContent = String(Number(session.completedSets) || 0);
+    const warnings = document.createElement("span"); warnings.textContent = String(Number(session.errors) || 0);
+    row.append(exercise, duration, reps, sets, warnings); list.append(row);
   });
 }
 

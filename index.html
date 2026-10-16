@@ -110,49 +110,23 @@
             </div>
         </div>
 
-        <div class="exercise-grid">
-            <article class="exercise-card">
-                <div class="exercise-card-top">
-                    <span class="exercise-icon">💪</span>
-                    <span class="exercise-category">Upper body</span>
-                </div>
-                <h3>Seated Arm Movement</h3>
-                <p>Practice the arm movement included in your care plan while seated and supported.</p>
-                <details>
-                    <summary>Exercise instructions</summary>
-                    <p>Follow the positioning, movement range and repetition guidance provided by your physiotherapist.</p>
-                </details>
-                <div class="demo-placeholder">
-                    <span>▶</span>
-                    <span>Demonstration video loads in the session player below.</span>
-                </div>
-                <button class="button exercise-start" type="button"
-                        data-exercise="Seated Arm Movement">
-                    Select Exercise →
-                </button>
-            </article>
-
-            <article class="exercise-card">
-                <div class="exercise-card-top">
-                    <span class="exercise-icon">✋</span>
-                    <span class="exercise-category">Hand practice</span>
-                </div>
-                <h3>Hand Movement</h3>
-                <p>Practice the hand movement assigned in your plan, at your prescribed pace.</p>
-                <details>
-                    <summary>Exercise instructions</summary>
-                    <p>Use only the hand movement and repetition guidance reviewed with your physiotherapist.</p>
-                </details>
-                <div class="demo-placeholder demo-blue">
-                    <span>▶</span>
-                    <span>Demonstration video loads in the session player below.</span>
-                </div>
-                <button class="button exercise-start" type="button"
-                        data-exercise="Hand Movement">
-                    Select Exercise →
-                </button>
-            </article>
+        <div class="category-grid" role="group" aria-label="Exercise categories">
+            <button class="category-card" type="button" data-category="arms" aria-pressed="false"><span class="category-icon" aria-hidden="true">💪</span><span class="category-card-copy"><strong>Arms</strong><small>5 exercises</small></span><span aria-hidden="true">→</span></button>
+            <button class="category-card" type="button" data-category="hands" aria-pressed="false"><span class="category-icon" aria-hidden="true">✋</span><span class="category-card-copy"><strong>Hands</strong><small>5 exercises</small></span><span aria-hidden="true">→</span></button>
+            <button class="category-card" type="button" data-category="legs" aria-pressed="false"><span class="category-icon" aria-hidden="true">🦵</span><span class="category-card-copy"><strong>Legs</strong><small>5 exercises</small></span><span aria-hidden="true">→</span></button>
         </div>
+        <div id="exerciseListSection" hidden>
+            <h3 id="exerciseListHeading" class="exercise-list-heading"></h3>
+            <div class="exercise-grid" id="exerciseList" aria-live="polite"></div>
+        </div>
+        <details class="legacy-exercises">
+            <summary>Previously available demos</summary>
+            <p>The original sessions remain available alongside the 15 categorized exercises.</p>
+            <div class="legacy-exercise-actions">
+                <button class="button button-outline" type="button" data-exercise="Seated Arm Movement">Seated Arm Movement</button>
+                <button class="button button-outline" type="button" data-exercise="Hand Movement">Hand Movement</button>
+            </div>
+        </details>
     </section>
 
     <section class="section" id="exerciseSession">
@@ -169,16 +143,23 @@
         <div class="session-panel">
             <div class="session-media-grid">
             <div class="exercise-video-panel">
-                <h3>Exercise demonstration</h3>
+                <h3>Reference demonstration</h3>
                 <video id="exerciseDemo" controls playsinline preload="metadata">
                     Your browser does not support video playback.
                 </video>
                 <p id="exerciseVideoNote" class="session-message">Select an exercise to load its demonstration video.</p>
+                <div class="reference-controls">
+                    <label class="control-label" for="referenceFile">Therapist-approved reference video</label>
+                    <input id="referenceFile" type="file" accept="video/*">
+                    <label class="reference-approval"><input type="checkbox" id="referenceApproved"> I confirm this reference was approved by my physiotherapist.</label>
+                    <button class="button button-outline" id="analyzeReference" type="button" disabled>Analyze reference phases</button>
+                    <p id="referenceStatus" role="status" aria-live="polite">Select an exercise to upload a reference clip.</p>
+                </div>
             <div class="session-controls">
-                <button class="button" id="startBtn" type="button">Start</button>
+                <button class="button" id="startBtn" type="button">Start Exercise</button>
                 <button class="button button-outline" id="pauseBtn" type="button">Pause</button>
                 <button class="button button-outline" id="resumeBtn" type="button">Resume</button>
-                <button class="button button-finish" id="finishBtn" type="button">Finish Exercise</button>
+                <button class="button button-finish" id="finishBtn" type="button">Stop Exercise</button>
             </div>
             </div>
         <aside class="camera-slot camera-panel">
@@ -190,23 +171,32 @@
                     <canvas id="pose-overlay" aria-label="Detected body or hand landmark overlay"></canvas>
                 </div>
                 <p id="poseStatus">Camera is off. Confirm the safety notice before enabling camera tracking.</p>
+                <div class="movement-status" id="movementStatus" data-state="unavailable" aria-live="polite">
+                    <strong id="movementState">Tracking unavailable</strong>
+                    <p id="correctionMessage">Select an exercise and configure its therapist-approved range to begin.</p>
+                </div>
                 <div class="form-feedback" id="formFeedback" data-level="info" role="status" aria-live="polite">
                     Form cues are off until you start a tracked session. This is an experimental demo, not a medical assessment.
                 </div>
-                <label class="audio-alert-setting"><input type="checkbox" id="audioAlerts" checked> Play a short sound when a demo form cue appears</label>
+                <div class="feedback-controls">
+                    <button class="button button-outline" id="muteFeedback" type="button" aria-pressed="false">Mute warning sounds</button>
+                    <label class="audio-alert-setting"><input type="checkbox" id="voiceAlerts"> Voice feedback</label>
+                </div>
+                <p id="feedbackStatus" class="feedback-status" role="status" aria-live="polite">Warning feedback is ready after you start a session.</p>
                 <label class="safety-confirm"><input type="checkbox" id="safetyConfirm"> I understand this is a demo estimate, not a medical assessment, and will follow my physiotherapist's guidance.</label>
                 <div class="camera-actions">
                     <button class="button" id="startCameraBtn" type="button">Start camera</button>
                     <button class="button button-outline" id="stopCameraBtn" type="button" disabled>Stop camera</button>
                 </div>
                 <p id="camera-error" class="camera-error" role="alert" hidden></p>
-                <p class="camera-disclaimer">Camera frames are processed in your browser and are not saved by this app. Repetition counting is experimental.</p>
+                <p class="camera-disclaimer">Camera frames stay in your browser. Estimates are experimental and do not replace therapist guidance.</p>
             </div>
         </aside>
             </div>
             <div class="session-current">
                 <span class="control-label">Current exercise</span>
                 <h3 id="currentExercise">None selected</h3>
+                <p id="currentExerciseInstructions">Choose an exercise to view its instructions.</p>
             </div>
 
             <div class="session-metrics">
@@ -218,9 +208,38 @@
                     <label class="control-label" for="reps">Repetitions completed</label>
                     <input id="reps" type="number" min="0" step="1"
                            value="0" inputmode="numeric">
+                    <p id="repProgressText">Target repetitions not configured.</p>
+                    <progress id="repProgress" value="0" max="1" aria-label="Repetition progress"></progress>
+                </div>
+                <div class="metric-block">
+                    <label class="control-label" for="completedSets">Sets completed</label>
+                    <input id="completedSets" type="number" min="0" step="1" value="0" inputmode="numeric">
+                    <p id="setProgressText">Target sets not configured.</p>
+                    <progress id="setProgress" value="0" max="1" aria-label="Set progress"></progress>
                 </div>
             </div>
 
+            <details class="therapist-settings" id="therapistSettings">
+                <summary>Therapist tracking settings</summary>
+                <p id="therapistSettingsHint">Enter movement limits supplied by the treating therapist. No default range is prescribed.</p>
+                <div class="therapist-settings-grid">
+                    <label>Start value <input id="rangeMin" type="number" step="any" placeholder="Not set"></label>
+                    <label>Target value <input id="rangeMax" type="number" step="any" placeholder="Not set"></label>
+                    <label>Tolerance <input id="rangeTolerance" type="number" min="0" step="any" placeholder="Not set"></label>
+                    <label>Target repetitions <input id="targetReps" type="number" min="1" step="1" placeholder="Optional"></label>
+                    <label>Target sets <input id="targetSets" type="number" min="1" step="1" placeholder="Optional"></label>
+                </div>
+                <p class="range-units">Measurement unit: <strong id="rangeUnit">Select an exercise</strong></p>
+                <button class="button button-outline" id="saveTrackingSettings" type="button" disabled>Apply therapist settings</button>
+                <button class="button button-outline" id="resetTrackingSettings" type="button" disabled>Reset exercise settings</button>
+                <p id="therapistSettingsMessage" role="status" aria-live="polite"></p>
+            </details>
+
+            <p class="tracking-mode" id="trackingMode" role="status">Select an exercise to see tracking availability.</p>
+            <div class="session-summary" id="sessionSummary" aria-live="polite">
+                <strong>Session summary</strong>
+                <p>Your completed session details will appear here.</p>
+            </div>
 
             <p class="session-message" id="message" role="status" aria-live="polite">
                 Choose an exercise above to begin.
@@ -245,6 +264,8 @@
                 <span>Exercise and date</span>
                 <span>Duration</span>
                 <span>Repetitions</span>
+                <span>Sets</span>
+                <span>Warnings</span>
             </div>
             <p class="empty-state">No sessions recorded yet.</p>
         </div>

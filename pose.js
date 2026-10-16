@@ -59,6 +59,16 @@ export async function createPoseLandmarker() {
   return { landmarker, handLandmarker, poseModelError, handModelError, vision };
 }
 
+export function closePoseLandmarkers(landmarker, handLandmarker) {
+  for (const model of [landmarker, handLandmarker]) {
+    try {
+      model?.close();
+    } catch (error) {
+      console.warn("Landmark model cleanup failed:", error);
+    }
+  }
+}
+
 function visible(point, threshold = 0.35) {
   return point && (point.visibility ?? point.presence ?? 1) >= threshold;
 }
